@@ -53,6 +53,6 @@ class User extends Authenticatable
 
     public function database()
     {
-        return database_path("tenanty/{$this->house}.sqlite");
+        return "house_$this->house";
     }
 }

@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Actions\TenantConnection;
 use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 class UserObserver
 {
@@ -13,8 +14,8 @@ class UserObserver
      */
     public function created(User $user): void
     {
-
-        file_put_contents($user->database(), "");
+        DB::statement('CREATE DATABASE ' . $user->database());
+        
         info("dabatase criada através do observer");
         app(TenantConnection::class, ['user' => $user])->execute();
         Artisan::call('migrate --path=database/migrations/tenant --database=tenant');
